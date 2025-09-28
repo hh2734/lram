@@ -41,10 +41,8 @@ local function new(addr, data)
     if p then return false end
     
     local x = addr:split("/")
---    for k, v in pairs(x) do print(k, v) end
     local y, root = ra(x, 1)
     if root then ram[addr] = data return true end
---    print(y)
     local p = path(y)
     
     if p then return false end
@@ -52,34 +50,24 @@ local function new(addr, data)
     ram[addr] = data
     return true
 end
---
-
---print(new("bla bla bla", {name = "", type = "f", stat = "norm", text = "abcdefg"}))
-
-
 
 function lram.file(name, text, stat)
     if stat then stat = "const" else stat = "norm" end
     local out = new(name, {type = "file", stat = stat, text = text})
---    for k, v in pairs(ram) do print(k, v) end
     return out
 end
---
 
 function lram.folder(name, text, stat)
     if stat then stat = "const" else stat = "norm" end
     local out = new(name, {type = "folder", stat = stat})
---    for k, v in pairs(ram) do print(k, v) end
     return out
 end
---
 
 function lram.read(addr)
     local p = path(addr)
     if not p or p.type ~= "file" then return false end
     return p.text
 end
---
 
 function lram.remove(addr)
     local p = path(addr)
@@ -87,6 +75,5 @@ function lram.remove(addr)
     ram[addr] = nil
     return true
 end
---
 
 return lram
